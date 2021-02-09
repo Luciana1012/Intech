@@ -36,21 +36,21 @@ print("Press 1 to view all items on sale \nPress 2 to buy items \nPress 3 to add
 while True:
     mode = input("Please select an operation")
     if mode == "1":
-        response = requests.get("http://192.168.1.39:5000/list")
+        response = requests.get("http://127.0.0.1:5000/list")
         print(response.text)
     elif mode == "2":
         product = input("Please enter product name that you would like to purchase: ")
         payload = {"product": product, "cookie": cookie}
-        response = requests.post("http://192.168.1.39:5000/buy", payload)
+        response = requests.post("http://127.0.0.1:5000/buy", payload)
         print(response.text)
     elif mode == "3":
         amount = input("How much credit would you like to add: ")
         payload = {"amount": amount, "cookie": cookie}
-        response = requests.post("http://192.168.1.39:5000/add_credit", payload)
+        response = requests.post("http://127.0.0.1:5000/add_credit", payload)
         print(response.text)
     elif mode == "4":
         payload = {"cookie": cookie}
-        response = requests.post("http://192.168.1.39:5000/profile", payload)
+        response = requests.post("http://127.0.0.1:5000/profile", payload)
         print(response.text)
     elif mode == "x":
         break

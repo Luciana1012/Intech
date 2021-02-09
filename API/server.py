@@ -36,8 +36,27 @@ def list_all_products():
 
 @app.route('/profile', methods=['POST'])
 def profile():
-    output = "You are signed in as", request.form['username'], 'with credit balance', credits.get(request.form['username'])
+    output = "You are signed in as " + request.form['cookie'] + ' with credit balance ' + str(credits.get(request.form['cookie']))
     return output
+
+@app.route('/add_credit', methods=[ 'POST'])
+def add_credit():
+    balance = credits.get(request.form['cookie'])
+    balance += int(request.form['amount'])
+    credits[request.form['cookie']] = balance
+    return "Credit added, your balance is: " + str(balance)
+
+@app.route('/buy', methods=['POST'])
+def buy_product():
+    if products.get(request.form['product']) is None:
+        return "ERROR: Product not found"
+    if products.get(request.form['product']) > credits.get(request.form['cookie']):
+        return "ERROR: Insufficient funds"
+    balance = credits.get(request.form['cookie'])
+    balance -= products.get(request.form['product'])
+    credits[request.form['cookie']] = balance
+    return "Item purchased, your balance is: " + str(balance)
+
 
 # Create a function (like the 2 above) for each of these options:
 
